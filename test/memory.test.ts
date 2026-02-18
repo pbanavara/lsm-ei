@@ -84,7 +84,6 @@ describe('Memory', () => {
     await mem.append({ role: 'assistant', text: 'Got it, I will remind you to buy oat milk and eggs' });
     await mem.append({ role: 'user', text: 'Schedule a dentist appointment for next Tuesday' });
     await mem.append({ role: 'assistant', text: 'Done, dentist appointment scheduled for Tuesday' });
-    await mem.close();
 
     const results = await mem.query('what groceries do I need?', { topK: 5 });
     expect(results.length).toBeGreaterThan(0);
@@ -93,6 +92,8 @@ describe('Memory', () => {
     expect(results[0]).toHaveProperty('offset');
     expect(results[0]).toHaveProperty('length');
     expect(typeof results[0].score).toBe('number');
+
+    await mem.close();
   });
 
   it('returns empty results when no chunks exist', async () => {
@@ -134,7 +135,6 @@ describe('Memory', () => {
       await mem.append({ role: 'user', text: topics[i] });
       await mem.append({ role: 'assistant', text: `Noted about: ${topics[i]}` });
     }
-    await mem.close();
 
     const results = await mem.query('groceries milk eggs', { topK: 3 });
     expect(results.length).toBeLessThanOrEqual(3);
@@ -144,6 +144,8 @@ describe('Memory', () => {
     for (let i = 1; i < results.length; i++) {
       expect(results[i - 1].score).toBeGreaterThanOrEqual(results[i].score);
     }
+
+    await mem.close();
   });
 
   it('chunk text matches what was appended', async () => {
@@ -156,7 +158,14 @@ describe('Memory', () => {
     await mem.append({ role: 'user', text: 'Remember to buy milk' });
     await mem.close();
 
-    const results = await mem.query('milk', { topK: 1 });
+    // Re-open to query against the flushed data
+    const mem2 = new Memory({
+      dir: tmpDir,
+      embedding: new MockEmbedding(),
+      chunkSize: 50,
+    });
+
+    const results = await mem2.query('milk', { topK: 1 });
     expect(results.length).toBe(1);
 
     // The returned text should be parseable JSON lines
@@ -166,6 +175,8 @@ describe('Memory', () => {
       expect(parsed).toHaveProperty('role');
       expect(parsed).toHaveProperty('text');
     }
+
+    await mem2.close();
   });
 
   it('close is idempotent on empty memory', async () => {

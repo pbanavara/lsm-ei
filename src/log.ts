@@ -43,20 +43,11 @@ export class AppendLog {
   read(offset: number, length: number): string {
     log(`read offset=${offset} length=${length}`);
     const buf = Buffer.alloc(length);
-    let readFd: number;
     try {
-      readFd = fs.openSync(this.filePath, 'r');
-    } catch (err) {
-      logError(`failed to open for read ${this.filePath}`, err);
-      throw err;
-    }
-    try {
-      fs.readSync(readFd, buf, 0, length, offset);
+      fs.readSync(this.fd, buf, 0, length, offset);
     } catch (err) {
       logError(`read failed at offset=${offset} length=${length}`, err);
       throw err;
-    } finally {
-      fs.closeSync(readFd);
     }
     return buf.toString('utf-8');
   }
