@@ -54,8 +54,13 @@ describe('Memory', () => {
     const content = fs.readFileSync(logPath, 'utf-8');
     const lines = content.trim().split('\n');
     expect(lines.length).toBe(2);
-    expect(JSON.parse(lines[0])).toEqual({ role: 'user', text: 'Hello' });
-    expect(JSON.parse(lines[1])).toEqual({ role: 'assistant', text: 'Hi there!' });
+    const line0 = JSON.parse(lines[0]);
+    const line1 = JSON.parse(lines[1]);
+    expect(line0).toMatchObject({ role: 'user', text: 'Hello' });
+    expect(line1).toMatchObject({ role: 'assistant', text: 'Hi there!' });
+    expect(typeof line0.ts).toBe('number');
+    expect(typeof line1.ts).toBe('number');
+    expect(line1.ts).toBeGreaterThanOrEqual(line0.ts);
   });
 
   it('creates embeddings.arrow after exceeding chunk size', async () => {

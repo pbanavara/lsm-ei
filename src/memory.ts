@@ -44,7 +44,7 @@ export class Memory {
   /** Append a conversational turn and flush a chunk if the threshold is reached. */
   async append(turn: { role: string; text: string }): Promise<void> {
     log(`append role=${turn.role} textLength=${turn.text.length}`);
-    const line = JSON.stringify(turn);
+    const line = JSON.stringify({ ts: Date.now(), ...turn });
     const { length } = this.log.append(line);
     this.bytesSinceLastEmbed += length;
     log(`bytesSinceLastEmbed=${this.bytesSinceLastEmbed}/${this.chunkSize}`);
