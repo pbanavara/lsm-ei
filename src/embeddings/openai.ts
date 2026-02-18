@@ -11,14 +11,25 @@ export interface OpenAIEmbeddingConfig {
 
 export class OpenAIEmbedding implements EmbeddingProvider {
   readonly dimensions: number;
-  private apiKey: string;
   private model: string;
+  private clientPromise: Promise<InstanceType<any>> | null = null;
+  private apiKey: string;
 
   constructor(config: OpenAIEmbeddingConfig) {
     this.apiKey = config.apiKey;
     this.model = config.model ?? 'text-embedding-3-small';
     this.dimensions = config.dimensions ?? 1536;
     log(`initialized model=${this.model} dimensions=${this.dimensions}`);
+  }
+
+  private getClient(): Promise<InstanceType<any>> {
+    if (!this.clientPromise) {
+      log('lazy-initializing OpenAI client');
+      this.clientPromise = import('openai').then(({ default: OpenAI }) => {
+        return new OpenAI({ apiKey: this.apiKey });
+      });
+    }
+    return this.clientPromise;
   }
 
   async embed(text: string): Promise<Float32Array> {
@@ -29,8 +40,7 @@ export class OpenAIEmbedding implements EmbeddingProvider {
   async embedBatch(texts: string[]): Promise<Float32Array[]> {
     log(`embedBatch count=${texts.length} totalChars=${texts.reduce((s, t) => s + t.length, 0)}`);
     try {
-      const { default: OpenAI } = await import('openai');
-      const client = new OpenAI({ apiKey: this.apiKey });
+      const client = await this.getClient();
 
       const response = await client.embeddings.create({
         model: this.model,
@@ -41,7 +51,7 @@ export class OpenAIEmbedding implements EmbeddingProvider {
       log(`embedBatch complete vectors=${response.data.length} usage=${JSON.stringify(response.usage)}`);
 
       return response.data.map(
-        (item) => new Float32Array(item.embedding),
+        (item: { embedding: number[] }) => new Float32Array(item.embedding),
       );
     } catch (err) {
       logError(`embedBatch failed for ${texts.length} text(s)`, err);
