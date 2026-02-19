@@ -16,6 +16,12 @@ For the built-in OpenAI adapter, also install the peer dependency:
 npm install openai
 ```
 
+For fully local embeddings (no API key needed), install the transformers runtime:
+
+```bash
+npm install @huggingface/transformers
+```
+
 ## Quick Start
 
 ```ts
@@ -145,6 +151,21 @@ const embedding = new OpenAIEmbedding({
   dimensions: 1536,                  // default
 });
 ```
+
+### Built-in: `LocalEmbedding`
+
+Runs entirely on-device using ONNX Runtime via `@huggingface/transformers`. No API key, no network calls.
+
+```ts
+import { LocalEmbedding } from 'lsm-ei';
+
+const embedding = new LocalEmbedding({
+  model: 'BAAI/bge-base-en-v1.5',  // default
+  dimensions: 768,                   // default
+});
+```
+
+The model (~110 MB) is downloaded and cached locally on the first call.
 
 ## Design Principles
 

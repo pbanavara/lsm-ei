@@ -20,6 +20,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@huggingface/transformers": "^3.8.1",
     "apache-arrow": "^18.1.0"
   },
   "peerDependencies": {
