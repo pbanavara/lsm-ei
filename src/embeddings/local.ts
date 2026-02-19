@@ -22,9 +22,17 @@ export class LocalEmbedding implements EmbeddingProvider {
   private getPipeline(): Promise<any> {
     if (!this.pipelinePromise) {
       log('lazy-initializing local pipeline (first call downloads the model)');
-      this.pipelinePromise = import('@huggingface/transformers').then(
-        ({ pipeline }) => pipeline('feature-extraction', this.model),
-      );
+      this.pipelinePromise = import('@huggingface/transformers')
+        .then(({ pipeline }) => pipeline('feature-extraction', this.model))
+        .catch((err) => {
+          this.pipelinePromise = null;
+          if (err?.code === 'ERR_MODULE_NOT_FOUND' || err?.code === 'MODULE_NOT_FOUND') {
+            throw new Error(
+              'LocalEmbedding requires the "@huggingface/transformers" package. Install it with: npm install @huggingface/transformers',
+            );
+          }
+          throw err;
+        });
     }
     return this.pipelinePromise;
   }

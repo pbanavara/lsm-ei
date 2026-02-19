@@ -10,15 +10,13 @@ Raw conversations are the source of truth. Embeddings serve as a spatial index o
 npm install lsm-ei
 ```
 
-For the built-in OpenAI adapter, also install the peer dependency:
+Then install **at least one** embedding provider:
 
 ```bash
+# Option A: OpenAI (remote, requires API key)
 npm install openai
-```
 
-For fully local embeddings (no API key needed), install the transformers runtime:
-
-```bash
+# Option B: Local (on-device, no API key needed)
 npm install @huggingface/transformers
 ```
 

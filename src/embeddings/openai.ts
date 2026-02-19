@@ -25,9 +25,14 @@ export class OpenAIEmbedding implements EmbeddingProvider {
   private getClient(): Promise<InstanceType<any>> {
     if (!this.clientPromise) {
       log('lazy-initializing OpenAI client');
-      this.clientPromise = import('openai').then(({ default: OpenAI }) => {
-        return new OpenAI({ apiKey: this.apiKey });
-      });
+      this.clientPromise = import('openai')
+        .then(({ default: OpenAI }) => new OpenAI({ apiKey: this.apiKey }))
+        .catch(() => {
+          this.clientPromise = null;
+          throw new Error(
+            'OpenAIEmbedding requires the "openai" package. Install it with: npm install openai',
+          );
+        });
     }
     return this.clientPromise;
   }
