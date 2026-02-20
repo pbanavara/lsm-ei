@@ -1,4 +1,4 @@
-# LSM-EI: Log-Structured Memory with Embedding Index
+# NAVD: Persistent conversation store for AI agents. 2 files, Not a vector database.
 
 Persistent conversational memory for AI agents. Two files, zero databases, pluggable embeddings.
 
@@ -7,7 +7,7 @@ Raw conversations are the source of truth. Embeddings serve as a spatial index o
 ## Install
 
 ```bash
-npm install lsm-ei
+npm install navd-ei
 ```
 
 Then install **at least one** embedding provider:
