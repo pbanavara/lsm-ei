@@ -1,7 +1,7 @@
 import type { EmbeddingProvider } from '../types.js';
 
-const log = (...args: unknown[]) => console.log('[lsm-ei:openai]', ...args);
-const logError = (...args: unknown[]) => console.error('[lsm-ei:openai]', ...args);
+const log = (...args: unknown[]) => console.log('[navd:openai]', ...args);
+const logError = (...args: unknown[]) => console.error('[navd:openai]', ...args);
 
 export interface OpenAIEmbeddingConfig {
   apiKey: string;

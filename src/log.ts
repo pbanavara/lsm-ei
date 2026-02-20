@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-const log = (...args: unknown[]) => console.log('[lsm-ei:log]', ...args);
-const logError = (...args: unknown[]) => console.error('[lsm-ei:log]', ...args);
+const log = (...args: unknown[]) => console.log('[navd:log]', ...args);
+const logError = (...args: unknown[]) => console.error('[navd:log]', ...args);
 
 export class AppendLog {
   private fd: number;

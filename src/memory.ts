@@ -4,8 +4,8 @@ import { EmbeddingIndex } from './embedding-index.js';
 import { topKSimilarity } from './similarity.js';
 import type { EmbeddingProvider, MemoryConfig, QueryResult } from './types.js';
 
-const log = (...args: unknown[]) => console.log('[lsm-ei:memory]', ...args);
-const logError = (...args: unknown[]) => console.error('[lsm-ei:memory]', ...args);
+const log = (...args: unknown[]) => console.log('[navd:memory]', ...args);
+const logError = (...args: unknown[]) => console.error('[navd:memory]', ...args);
 
 const DEFAULT_CHUNK_SIZE = 10_240; // 10 KB
 

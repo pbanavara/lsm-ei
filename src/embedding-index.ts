@@ -15,8 +15,8 @@ import {
   RecordBatchReader,
 } from 'apache-arrow';
 
-const log = (...args: unknown[]) => console.log('[lsm-ei:index]', ...args);
-const logError = (...args: unknown[]) => console.error('[lsm-ei:index]', ...args);
+const log = (...args: unknown[]) => console.log('[navd:index]', ...args);
+const logError = (...args: unknown[]) => console.error('[navd:index]', ...args);
 
 export interface IndexEntry {
   vector: Float32Array;

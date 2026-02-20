@@ -29,7 +29,7 @@ class MockEmbedding implements EmbeddingProvider {
 let tmpDir: string;
 
 beforeEach(() => {
-  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lsm-ei-test-'));
+  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'navd-test-'));
 });
 
 afterEach(() => {

@@ -1,7 +1,7 @@
 import type { EmbeddingProvider } from '../types.js';
 
-const log = (...args: unknown[]) => console.log('[lsm-ei:local]', ...args);
-const logError = (...args: unknown[]) => console.error('[lsm-ei:local]', ...args);
+const log = (...args: unknown[]) => console.log('[navd:local]', ...args);
+const logError = (...args: unknown[]) => console.error('[navd:local]', ...args);
 
 export interface LocalEmbeddingConfig {
   model?: string;

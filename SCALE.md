@@ -1,8 +1,8 @@
-# LSM-EI: Scale Estimation
+# NAVD: Scale Estimation
 
 ## Scenario
 
-An enterprise or LLM company deploying LSM-EI as per-user memory for 100,000 users, each conversing ~30 minutes per day. Each user's data is sandboxed in their own `conversations.log` and `embeddings.arrow` files.
+An enterprise or LLM company deploying NAVD as per-user memory for 100,000 users, each conversing ~30 minutes per day. Each user's data is sandboxed in their own `conversations.log` and `embeddings.arrow` files.
 
 ## Per-User Daily Volume
 
@@ -39,7 +39,7 @@ The read path: user sends a message, system retrieves relevant memory chunks.
 ### Latency Contribution
 
 ```
-LSM-EI retrieval:  ~51 ms   ███
+NAVD retrieval:  ~51 ms   ███
 LLM inference:     ~2000 ms ████████████████████████████████████████████████████████████████████
 ```
 
@@ -147,15 +147,15 @@ The log is the source of truth. The Arrow file is a derived index that can alway
 | 2 | Embedding API calls | 140/sec at peak; ~$0.02/1M tokens (cheap) |
 | 3 | Compute (single server) | 128-256 GB RAM, NVMe storage |
 | 4 | Storage | 2-6 TB; commodity NVMe pricing |
-| 5 | LSM-EI retrieval logic | Negligible; brute-force dot product + file read |
+| 5 | NAVD retrieval logic | Negligible; brute-force dot product + file read |
 
-The memory system itself is not a meaningful cost factor. Infrastructure spend is dominated by LLM inference, which LSM-EI has no control over and does not amplify.
+The memory system itself is not a meaningful cost factor. Infrastructure spend is dominated by LLM inference, which NAVD has no control over and does not amplify.
 
 ## Summary
 
 | Question | Answer |
 |---|---|
-| Does LSM-EI handle 100K users? | Yes, on a single server |
+| Does NAVD handle 100K users? | Yes, on a single server |
 | What's the per-query retrieval latency? | < 51 ms |
 | What dominates total latency? | LLM inference (500-3,000 ms) |
 | When does brute-force search break? | Well beyond 50K vectors per user (~10 ms) |

@@ -1,4 +1,4 @@
-# LSM-EI: Log-Structured Memory with Embedding Index
+# NAVD: Log-Structured Memory with Embedding Index
 
 ## Overview
 

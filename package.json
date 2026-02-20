@@ -1,7 +1,7 @@
 {
-  "name": "lsm-ei",
+  "name": "navd-ai",
   "version": "0.1.0",
-  "description": "LSM-EI: Persistent conversational memory for AI agents. Two files, zero databases, pluggable embeddings.",
+  "description": "NAVD: Persistent conversational memory for AI agents. Two files, zero databases, pluggable embeddings.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -23,7 +23,7 @@ npm install @huggingface/transformers
 ## Quick Start
 
 ```ts
-import { Memory, OpenAIEmbedding } from 'lsm-ei';
+import { Memory, OpenAIEmbedding } from 'navd';
 
 const mem = new Memory({
   dir: './memory-data',
@@ -48,7 +48,7 @@ await mem.close();
 
 ### Storage
 
-LSM-EI uses exactly two files:
+NAVD uses exactly two files:
 
 ```
 memory-data/
@@ -116,7 +116,7 @@ Flushes any pending partial chunk and closes file handles. Always call this when
 Implement the `EmbeddingProvider` interface to use any embedding model:
 
 ```ts
-import { Memory, type EmbeddingProvider } from 'lsm-ei';
+import { Memory, type EmbeddingProvider } from 'navd';
 
 class MyEmbedding implements EmbeddingProvider {
   dimensions = 384;
@@ -141,7 +141,7 @@ const mem = new Memory({
 ### Built-in: `OpenAIEmbedding`
 
 ```ts
-import { OpenAIEmbedding } from 'lsm-ei';
+import { OpenAIEmbedding } from 'navd';
 
 const embedding = new OpenAIEmbedding({
   apiKey: '...',
@@ -155,7 +155,7 @@ const embedding = new OpenAIEmbedding({
 Runs entirely on-device using ONNX Runtime via `@huggingface/transformers`. No API key, no network calls.
 
 ```ts
-import { LocalEmbedding } from 'lsm-ei';
+import { LocalEmbedding } from 'navd';
 
 const embedding = new LocalEmbedding({
   model: 'BAAI/bge-base-en-v1.5',  // default
